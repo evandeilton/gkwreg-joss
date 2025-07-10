@@ -1,0 +1,9 @@
+GKw Bias Study Log - 2025-04-01 23:45:37
+Number of simulations: 5000
+Sample sizes: 100, 250, 500, 1000, 5000
+Methods: tmb, nr, nlminb, optim
+Number of configurations: 7
+Simulation completed in 98.15 minutes.
+Results saved to rds directory.
+Total parameter results: 430
+Total convergence results: 140

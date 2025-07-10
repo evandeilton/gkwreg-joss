@@ -1,0 +1,8 @@
+family,best_method,score
+beta,tmb,0.421
+bkw,tmb,0.648
+ekw,tmb,0.628
+gkw,tmb,0.607
+kkw,tmb,0.582
+kw,tmb,0.481
+mc,tmb,0.812

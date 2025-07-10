@@ -1,0 +1,17 @@
+Metric,Value
+Total Parameters Evaluated,5
+Total Distribution Families,7
+Total Methods Compared,4
+Sample Sizes Tested,"100, 250, 500, 1000, 5000"
+Simulation Replications,5000
+Best Overall Method,tmb
+Lowest Mean Absolute Relative Bias Method,tmb
+Highest Coverage Rate Method,tmb
+Fastest Method,optim
+Most Problematic Parameters,"lambda, delta"
+Most Challenging Configurations,"gkw, mc"
+Best Method for Parameter alpha,nr
+Best Method for Parameter beta,nlminb
+Best Method for Parameter gamma,nr
+Best Method for Parameter delta,tmb
+Best Method for Parameter lambda,nr

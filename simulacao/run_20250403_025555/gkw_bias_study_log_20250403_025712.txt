@@ -1,0 +1,5 @@
+GKw Bias Study Log - 2025-04-03 02:57:12
+Number of simulations: 5000
+Sample sizes: 100, 250, 500, 1000, 5000
+Methods: tmb, nr, nlminb, optim
+Number of configurations: 7
