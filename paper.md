@@ -22,9 +22,9 @@ affiliations:
  # - name: Universidade Federal do Paraná (UFPR)
  #   index: 2
 citation_author: Lopes, J.E et. al.
-date: '`r format(Sys.time(), "%d %B %Y")`'
-year: '`r format(Sys.time(), "%Y")`'
-bibliography: references.bib
+date: '10 julho 2025'
+year: '2025'
+bibliography: paper.bib
 output: rticles::joss_article
 csl: apa.csl
 journal: JOSS
@@ -42,27 +42,10 @@ header-includes:
   # - \usepackage{threeparttable} # Uncomment if necessary
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,
-                      prompt = 'R> ',
-                      continue = '+ ',
-                      fig.align = 'center', # Center figures by default
-                      message = FALSE,      # Hide messages
-                      warning = FALSE,       # Hide warnings
-                      knitr.table.format = "latex"
-                      )
-```
 
 
-```{r load-packages, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE}
-# Silently load required packages
-library(gkwreg)
-library(simplexreg)
-library(betareg)
-library(knitr)
-library(dplyr)
-source("gkwreg-examples.R")
-```
+
+
 
 
 
@@ -559,19 +542,26 @@ summary(kw_model)
 plot(kw_model, use_ggplot = TRUE, arrange_plots = TRUE, sub.caption = "")
 ```
 
-```{r, echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE, error=FALSE}
-kable(
-  results_food_data,
-  format = "latex",
-  digits = 2,
-  caption = "Comparison of regression models for the FoodExpenditure data. Models ordered by AIC.",
-  label = "tab:food-models",
-  align = c("llccccc"),
-  booktabs = TRUE,
-  # linesep = "",
-  col.names = c("Model Family", "Code", "N. Par.", "LogLik", "AIC", "BIC", "Conv.")
-)
-```
+\begin{table}
+
+\caption{\label{tab:tab:food-models}Comparison of regression models for the FoodExpenditure data. Models ordered by AIC.}
+\centering
+\begin{tabular}[t]{llccccc}
+\toprule
+Model Family & Code & N. Par. & LogLik & AIC & BIC & Conv.\\
+\midrule
+Kumaraswamy & kw & 4 & 46.34 & -84.69 & -78.14 & 1\\
+Exponential Kumaraswamy & ekw & 5 & 46.99 & -83.98 & -75.79 & 1\\
+Beta-Kumaraswamy & bkw & 6 & 46.99 & -81.98 & -72.15 & 1\\
+Kumaraswamy-Kumaraswamy & kkw & 6 & 46.98 & -81.97 & -72.14 & 0\\
+Beta (gkwreg) & beta & 4 & 44.64 & -81.28 & -74.73 & 1\\
+\addlinespace
+Generalized Kumaraswamy & gkw & 7 & 46.99 & -79.98 & -68.52 & 0\\
+McDonald/Beta Power & mc & 5 & 44.74 & -79.49 & -71.30 & 1\\
+Beta (betareg) & betareg & 4 & 39.03 & -70.05 & -63.50 & 1\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 Based on the AIC values in Table 3, the Kumaraswamy (Kw) model offers the best fit ($AIC = -84.69$), closely followed by the Exponential Kumaraswamy (EKw) model ($AIC = -83.98$), while the standard Beta model (betareg) has the least favorable AIC. This indicates that a more flexible shape improves model fit compared to the Beta baseline, and the Kw model in particular strikes a good balance between fit and parsimony when modeling food expenditure proportions using “persons” as a predictor. Moreover, likelihood ratio tests (LRTs) were conducted to compare the more complex models—EKw (5 parameters) and Beta-Kumaraswamy (BKw, 6 parameters)—against the simpler Kw model (4 parameters). The LRT statistic was computed as $LR = 2\left(\ell_{\text{complex}} - \ell_{\text{kw}}\right),$
 where $\ell_{\text{complex}}$ is the maximized log-likelihood of the complex model and $\ell_{\text{kw}}$ is that of the Kw model. For example, the EKw model had a log-likelihood difference of $46.99 - 46.34 = 0.65$, yielding $LR = 2 \times 0.65 = 1.29$; given 1 degree of freedom, this corresponds to a p-value of approximately $0.26$. Similarly, the BKw model also yielded $LR = 1.29$ with 2 degrees of freedom ($p \approx 0.48$). These non-significant p-values suggest that the additional parameters in the EKw and BKw models do not provide a significant improvement in fit over the simpler Kw model.
@@ -608,18 +598,25 @@ summary(kw_model_gas)
 plot(kw_model_gas, use_ggplot = TRUE, arrange_plots = TRUE, sub.caption = "")
 ```
 
-```{r, echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE, error=FALSE}
-kable(results_gasoline,
-      format = "latex",
-      digits = 2,
-      caption = "Comparison of regression models for the Gasoline Yield data. Models ordered by AIC.",
-      label = "tab:gasoline-models",
-      align = c("llccccc"),
-      booktabs = TRUE,
-      linesep = "",
-      col.names = c("Model Family", "Code", "N. Par.", "LogLik", "AIC", "BIC", "Conv.")
-      )
-```
+\begin{table}
+
+\caption{\label{tab:tab:gasoline-models}Comparison of regression models for the Gasoline Yield data. Models ordered by AIC.}
+\centering
+\begin{tabular}[t]{llccccc}
+\toprule
+Model Family & Code & N. Par. & LogLik & AIC & BIC & Conv.\\
+\midrule
+Kumaraswamy & kw & 13 & 96.48 & -166.97 & -147.91 & 1\\
+Exponential Kumaraswamy & ekw & 14 & 97.17 & -166.33 & -145.81 & 1\\
+Kumaraswamy-Kumaraswamy & kkw & 15 & 97.26 & -164.52 & -142.53 & 1\\
+McDonald/Beta Power & mc & 14 & 96.16 & -164.32 & -143.80 & 1\\
+Beta-Kumaraswamy & bkw & 15 & 96.07 & -162.14 & -140.16 & 1\\
+Generalized Kumaraswamy & gkw & 16 & 95.59 & -159.18 & -135.73 & 1\\
+Beta (gkwreg) & beta & 13 & 87.68 & -149.37 & -130.31 & 1\\
+Beta (betareg) & betareg & 13 & 81.01 & -136.03 & -116.97 & 1\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 Based on the AIC values for the `GasolineYield` data in Table 4, the Kumaraswamy (kw) model provides the best fit with an AIC of $-166.97$, closely followed by the Exponential Kumaraswamy (ekw) model with an AIC of $-166.33$, whereas both the Beta (gkwreg) and Beta (betareg) models yield considerably higher AICs (-149.37 and -136.03, respectively), indicating poorer fit. To further assess whether the additional parameters in the more complex models enhance the fit, likelihood ratio tests (LRTs) were conducted by calculating $LR = 2\bigl(\ell_{\text{complex}} - \ell_{\text{kw}}\bigr)$, where $\ell_{\text{complex}}$ is the maximized log-likelihood of the complex model and $\ell_{\text{kw}}$ is that of the kw model. For instance, comparing the ekw model (14 parameters) to the kw model (13 parameters) yields a log-likelihood difference of $(97.17 - 96.48) = 0.69$, resulting in $LR = 2 \times 0.69 = 1.38$ with 1 degree of freedom and a corresponding p-value of approximately $0.24$. Similarly, comparing the Beta-Kumaraswamy (bkw) model (15 parameters, logLik = $96.07$) to the kw model results in a difference of $(96.48 - 96.07) = 0.41$, giving $LR = 2 \times 0.41 = 0.82$ with $2$ degrees of freedom and a p-value of about $0.67$. These non-significant p-values indicate that the extra parameters in the ekw and bkw models do not significantly improve the fit compared to the simpler kw model, thereby favoring the kw model for its superior balance of model fit and parsimony in analyzing the `GasolineYield` data.
 
@@ -644,18 +641,25 @@ summary(ekw_model_gas)
 plot(ekw_model_gas, use_ggplot = TRUE, arrange_plots=TRUE, sub.caption="")
 ```
 
-```{r, echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE, error=FALSE}
-kable(results_sdac,
-      format = "latex",
-      digits = 2,
-      caption = "Comparison of regression models for the residual cancer detection data (sdac). Models ordered by AIC.",
-      label = "tab:cancer-models",
-      align = c("llccccc"),
-      booktabs = TRUE,
-      linesep = "",
-      col.names = c("Model Family", "Code", "N. Par.", "LogLik", "AIC", "BIC", "Conv.")
-    )
-```
+\begin{table}
+
+\caption{\label{tab:tab:cancer-models}Comparison of regression models for the residual cancer detection data (sdac). Models ordered by AIC.}
+\centering
+\begin{tabular}[t]{llccccc}
+\toprule
+Model Family & Code & N. Par. & LogLik & AIC & BIC & Conv.\\
+\midrule
+Exponential Kumaraswamy & ekw & 5 & 199.04 & -388.09 & -370.70 & 1\\
+Kumaraswamy-Kumaraswamy & kkw & 6 & 199.04 & -386.09 & -365.23 & 1\\
+Beta-Kumaraswamy & bkw & 6 & 199.04 & -386.09 & -365.23 & 1\\
+Beta (gkwreg) & beta & 4 & 196.99 & -385.98 & -372.07 & 1\\
+Generalized Kumaraswamy & gkw & 7 & 199.04 & -384.09 & -359.75 & 0\\
+McDonald/Beta Power & mc & 5 & 197.04 & -384.08 & -366.70 & 0\\
+Beta (betareg) & betareg & 4 & 195.40 & -382.81 & -368.90 & 1\\
+Kumaraswamy & kw & 4 & 195.40 & -382.79 & -368.89 & 1\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 
 Based on the sdac dataset results in Table 5 — which examine the viable `CD34+` cell recovery rate (`rcd`) as a function of adjusted age (`ageadj`) and chemotherapy protocol (`chemo`), with age also influencing the second parameter—the Exponential Kumaraswamy (EKw) model yields the lowest $AIC (–386.17)$ with $6$ parameters and a log-likelihood of $199.08$, compared to the simpler Kumaraswamy (Kw) model with $5$ parameters ($logLik = 195.74, AIC = –381.49$). A likelihood ratio test between EKw and Kw computes a log-likelihood difference of 3.34, resulting in an LR value of $LR = 2 \times 3.34 = 6.68$ (with 1 degree of freedom), which corresponds to a p-value of approximately $0.01$, indicating a significant improvement. Similarly, comparing the Beta-Kumaraswamy (BKw) model ($7$ parameters, $logLik = 199.48, AIC = –384.96)$ to the Kw model gives a log-likelihood difference of $3.74$, yielding $LR = 2 \times 3.74 = 7.48$ with $2$ degrees of freedom ($p \approx 0.02$). Although these tests show that the extra parameters in the EKw and BKw models contribute a statistically significant improvement over the Kw model, the EKw model’s lower AIC demonstrates that it provides the best balance between model fit and parsimony for these clinical data.
@@ -735,19 +739,22 @@ summary(ekw_model_ret)
 plot(ekw_model_ret, use_ggplot = TRUE, arrange_plots=TRUE, sub.caption="")
 ```
 
-```{r, echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE, error=FALSE}
-# Display the formatted table with results
-kable(results_retinal,
-      format = "latex",
-      digits = 2,
-      caption = "Comparison of models from the GKw family (with 3+ parameters) for the retinal detachment data. Models sorted by AIC.",
-      label = "tab:retinal-models",
-      align = c("llccccc"),
-      booktabs = TRUE,
-      linesep = "",
-      col.names = c("Model Family", "Code", "N. Par.", "LogLik", "AIC", "BIC", "Conv.")
-)
-```
+\begin{table}
+
+\caption{\label{tab:tab:retinal-models}Comparison of models from the GKw family (with 3+ parameters) for the retinal detachment data. Models sorted by AIC.}
+\centering
+\begin{tabular}[t]{llccccc}
+\toprule
+Model Family & Code & N. Par. & LogLik & AIC & BIC & Conv.\\
+\midrule
+Exponential Kumaraswamy & ekw & 9 & 132.71 & -247.42 & -218.63 & 1\\
+Beta-Kumaraswamy & bkw & 10 & 132.71 & -245.42 & -213.43 & 1\\
+Generalized Kumaraswamy & gkw & 11 & 132.71 & -243.42 & -208.23 & 1\\
+Kumaraswamy-Kumaraswamy & kkw & 10 & 131.02 & -242.05 & -210.06 & 1\\
+McDonald/Beta Power & mc & 9 & 108.85 & -199.71 & -170.92 & 1\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 Among the five compared models, results in Table 6 show that the Exponentiated Kumaraswamy (ekw) model provides the optimal fit with the highest log-likelihood ($132.71$) using only $9$ parameters, resulting in the best AIC ($-247.42$) and BIC ($-218.63$) values. The Beta-Kumaraswamy (bkw) and Generalized Kumaraswamy (gkw) models achieve identical log-likelihood but require more parameters ($10$ and $11$ respectively), resulting in higher information criteria. The Kumaraswamy-Kumaraswamy (kkw) model shows slightly lower log-likelihood ($131.02$), while the McDonald/Beta Power (mc) model performs substantially worse despite having $9$ parameters. With all models converging successfully, the ekw model clearly offers the best balance between parsimony and goodness-of-fit for the retinal data.
 
@@ -801,24 +808,35 @@ plot(gkwgof(fit_best_weather),
 ```
 
 
-```{r, echo=FALSE, eval=TRUE, include=TRUE, warning=FALSE, message=FALSE, warning=FALSE, error=FALSE}
-kable(results_weathertask_display,
-      format = "latex",
-      digits = 2, # Increase precision for better comparison
-      caption = "Results of fitting the GKw family distributions to the WeatherTask data (univariate). Models sorted by AIC.",
-      label = "tab:weathertask-fit",
-      align = c("lcccccccc"), # Adjust alignment
-      booktabs = TRUE,
-      linesep = "",
-      col.names = c("Code", "N. Par.", "LogLik", "AIC", "BIC", "KS", "AD", "RMSE", "pseudo-R^2")
-      )
-```
+\begin{table}
+
+\caption{\label{tab:tab:weathertask-fit}Results of fitting the GKw family distributions to the WeatherTask data (univariate). Models sorted by AIC.}
+\centering
+\begin{tabular}[t]{lcccccccc}
+\toprule
+Code & N. Par. & LogLik & AIC & BIC & KS & AD & RMSE & pseudo-R\textasciicircum{}2\\
+\midrule
+ekw & 3 & 204.45 & -402.90 & -391.37 & 0.18 & 11.19 & 0.08 & 0.69\\
+bkw & 4 & 203.82 & -399.64 & -384.27 & 0.18 & 11.31 & 0.08 & 0.69\\
+kkw & 4 & 203.80 & -399.61 & -384.23 & 0.18 & 11.32 & 0.08 & 0.69\\
+gkw & 5 & 204.35 & -398.71 & -379.49 & 0.18 & 10.96 & 0.08 & 0.69\\
+mc & 3 & 195.97 & -385.94 & -374.41 & 0.19 & 13.44 & 0.09 & 0.68\\
+beta & 2 & 191.98 & -379.96 & -372.27 & 0.20 & 14.48 & 0.09 & 0.67\\
+kw & 2 & 187.03 & -370.07 & -362.38 & 0.19 & 14.71 & 0.09 & 0.66\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 The diagnostic plots in Figure 1 and results in Table 7 for the Exponentiated Kumaraswamy (EKW) model, indicate a generally good fit to the WeatherTask data. The histogram is closely tracked by the fitted EKW density curve, and both the `P-P` and `Q-Q` plots show points aligning well with the diagonal, reflected in high correlation coefficients ($0.96$ and $0.96$, respectively). Although some systematic deviations appear in the intermediate probabilities (`P-P` plot) and at the distribution’s tails (`Q-Q` plot), these are relatively minor given the large sample size ($n = 345$). The Kolmogorov-Smirnov (KS) and Anderson-Darling (AD) tests formally reject the null hypothesis of perfect adherence—commonly observed in large samples, where even small discrepancies can lead to rejection. Nonetheless, the EKW model achieves an AIC of $-402.90$—the lowest among all candidates—and a pseudo-$R^2$ of $0.69$, reflecting a strong improvement over a null (uniform) model.
 
-```{r weathertask-plot-include, fig.cap="Diagnostic plots for the fit of the Exponentiated Kumaraswamy (EKw) distribution to the WeatherTask data. It includes a histogram with density curves, a P-P plot, and a Q-Q plot.", out.width="100%", echo=FALSE, results='asis'}
-knitr::include_graphics("plot_fit_weather.pdf")
-```
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{plot_fit_weather} 
+
+}
+
+\caption{Diagnostic plots for the fit of the Exponentiated Kumaraswamy (EKw) distribution to the WeatherTask data. It includes a histogram with density curves, a P-P plot, and a Q-Q plot.}\label{fig:weathertask-plot-include}
+\end{figure}
 
 From a moment-based perspective, the theoretical mean ($0.2435$) is almost identical to the sample mean ($0.2434$), while the variance, skewness, and kurtosis differ only modestly, suggesting that the EKW model captures the main features of the empirical distribution. Prediction metrics (MAE, RMSE, CRPS) also confirm the model’s robust performance, with RMSE $\approx 0.077$. Compared to simpler two-parameter distributions like Beta or Kumaraswamy, the extra exponentiation parameter $\lambda$ clearly helps accommodate the shape of the subjective probability judgments in this dataset. Although small residual mismatches remain — particularly for moderate-probability values and the upper tail — these results underscore the EKW model as the best overall choice for fitting the `WeatherTask` data among the evaluated GKw-family alternatives.
 
